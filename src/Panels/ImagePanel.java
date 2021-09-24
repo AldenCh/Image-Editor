@@ -255,15 +255,11 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	public void mouseDragged(MouseEvent e) {
 		parent.setSaved(false);
 		if (currentCursor == "paint") {
-			coords.add(Integer.toString(e.getX())+" "+Integer.toString(e.getY())+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()+1)+" "+Integer.toString(e.getY())+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()+1)+" "+Integer.toString(e.getY()-1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()+1)+" "+Integer.toString(e.getY()+1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()-1)+" "+Integer.toString(e.getY())+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()-1)+" "+Integer.toString(e.getY()-1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX()-1)+" "+Integer.toString(e.getY()+1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX())+" "+Integer.toString(e.getY()+1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
-			coords.add(Integer.toString(e.getX())+" "+Integer.toString(e.getY()-1)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());;
+			for (int i = e.getX()-2; i <= e.getX()+2; i++) {
+				for (int j = e.getY()-2; j <= e.getY()+2; j++){
+					coords.add(Integer.toString(i)+" "+Integer.toString(j)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
+				}
+			}
 			this.repaint();
 		}
 		else if (currentCursor == "drag") {
