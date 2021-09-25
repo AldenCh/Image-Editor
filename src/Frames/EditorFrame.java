@@ -184,7 +184,11 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		fileMenu.add(saveAsItem);
 		menuBar.add(fileMenu);
 	}
-	 
+	
+	public void updatePixelSize(int newSize) {
+		image.setPixelSize(newSize);
+	}
+	
 	public void updateColour(Color colour) {
 		currentColour = colour;
 		colourPalette.updateColour(colour);

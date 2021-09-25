@@ -8,12 +8,16 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import Frames.EditorFrame;
 
-public class ColourPanel extends JPanel implements ActionListener{
+public class ColourPanel extends JPanel implements ActionListener, ChangeListener{
 	EditorFrame parent;
 	JPanel buttonPanel = new JPanel();
 	JColorChooser colourChooser;
@@ -23,6 +27,8 @@ public class ColourPanel extends JPanel implements ActionListener{
 	ImageIcon erase = new ImageIcon("./resources/cursors/eraser.png");
 	ImageIcon dropper = new ImageIcon("./resources/cursors/eyedropper.png");
 	JButton colourButton, paintBrush, dragCursor, selectTool, eraser, eyeDropper;
+	JLabel sliderLabel;
+	JSlider pixelSlider;
 	
 	public ColourPanel(EditorFrame parent) {
 		this.parent = parent;
@@ -65,15 +71,32 @@ public class ColourPanel extends JPanel implements ActionListener{
 		
 		colourButton = new JButton();
 		colourButton.setBackground(Color.black);
-		colourButton.setBounds(135, 225, 50, 50);
+		colourButton.setBounds(135, 260, 50, 50);
 		colourButton.setVisible(true);
 		colourButton.setOpaque(true);
 		colourButton.setFocusable(false);
 		colourButton.setBorder(new LineBorder(Color.white, 5));
 		colourButton.addActionListener(this);
 		
+		sliderLabel = new JLabel("Paintbrush Size");
+		sliderLabel.setBounds(115, 200, 100, 10);
+		sliderLabel.setForeground(Color.white);
+		sliderLabel.setVisible(true);
+		sliderLabel.setOpaque(false);
+		
+		pixelSlider = new JSlider(1, 5, 3);
+		pixelSlider.setBounds(85, 215, 150, 30);
+		pixelSlider.setFocusable(false);
+		pixelSlider.setMajorTickSpacing(1);
+		pixelSlider.setPaintLabels(true);
+		pixelSlider.setSnapToTicks(true);
+		pixelSlider.setForeground(Color.white);
+		pixelSlider.setOpaque(false);
+		pixelSlider.setVisible(true);
+		pixelSlider.addChangeListener(this);
+		
 		buttonPanel.setLayout(new GridLayout(5,5,5,5));
-		buttonPanel.setBounds(75, 50, 170, 160);
+		buttonPanel.setBounds(75, 30, 170, 160);
 		buttonPanel.setBackground(new Color(50, 40, 56));
 		buttonPanel.setBorder(new LineBorder(Color.white, 1));
 		
@@ -93,6 +116,8 @@ public class ColourPanel extends JPanel implements ActionListener{
 		}
 		this.add(buttonPanel);
 		this.add(colourButton);
+		this.add(sliderLabel);
+		this.add(pixelSlider);
 	}
 	
 	public void updateColour(Color newColor) {
@@ -151,6 +176,13 @@ public class ColourPanel extends JPanel implements ActionListener{
 			eyeDropper.setBorder(new LineBorder(Color.orange, 2));
 		}
 		
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == pixelSlider) {
+			parent.updatePixelSize(pixelSlider.getValue());
+		}
 	}
 	
 }

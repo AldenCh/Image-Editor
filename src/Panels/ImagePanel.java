@@ -39,6 +39,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	boolean canSave = false;
 	int lastXCoord = -20;
 	int lastYCoord = -20;
+	int pixelSize = 3;
 	
 	public ImagePanel(EditorFrame parent, String imageName) {
 		this.parent = parent;
@@ -250,13 +251,17 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	public void updateCursor(String newCursor) {
 		currentCursor = newCursor;
 	}
+	
+	public void setPixelSize(int newPixelSize) {
+		pixelSize = newPixelSize;
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		parent.setSaved(false);
 		if (currentCursor == "paint") {
-			for (int i = e.getX()-2; i <= e.getX()+2; i++) {
-				for (int j = e.getY()-2; j <= e.getY()+2; j++){
+			for (int i = e.getX()-pixelSize; i <= e.getX()+pixelSize; i++) {
+				for (int j = e.getY()-pixelSize; j <= e.getY()+pixelSize; j++){
 					coords.add(Integer.toString(i)+" "+Integer.toString(j)+" "+currentColour.getRed()+" "+currentColour.getGreen()+" "+currentColour.getBlue());
 				}
 			}
@@ -271,7 +276,6 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 		else if (currentCursor == "eraser") {
 			// TODO
 		}
-		
 	}
 
 	@Override
