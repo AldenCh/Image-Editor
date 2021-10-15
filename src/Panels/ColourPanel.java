@@ -132,6 +132,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		}
 		
 		else if (e.getSource() == paintBrush) {
+			parent.updateTooltip(0);
 			parent.updateCursor("paint");
 			paintBrush.setBorder(new LineBorder(Color.orange, 2));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
@@ -141,6 +142,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		}
 		
 		else if (e.getSource() == dragCursor) {
+			parent.updateTooltip(1);
 			parent.updateCursor("drag");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(Color.orange, 2));
@@ -150,6 +152,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		}
 		
 		else if (e.getSource() == selectTool) {
+			parent.updateTooltip(2);
 			parent.updateCursor("select");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
@@ -159,6 +162,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		}
 		
 		else if (e.getSource() == eraser) {
+			parent.updateTooltip(3);
 			parent.updateCursor("eraser");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
@@ -168,6 +172,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		}
 		
 		else if (e.getSource() == eyeDropper) {
+			parent.updateTooltip(4);
 			parent.updateCursor("eyedropper");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));

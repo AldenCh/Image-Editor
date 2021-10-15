@@ -36,6 +36,7 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 	ToolBarPanel toolbar;
 	ColourPanel colourPalette;
 	FilterPanel filters;
+	TooltipPanel tooltip;
 	int windowWidth;
 	int windowHeight;
 	boolean saved = true;
@@ -78,7 +79,7 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		toolbar.setVisible(true);
 		toolbar.getScroll().setOpaque(true);
 		toolbar.getScroll().setVisible(true);
-		toolbar.getScroll().setBounds(1600, 320, 320, 715);
+		toolbar.getScroll().setBounds(1600, 320, 320, 430);
 		
 		colourPalette = new ColourPanel(this);
 		colourPalette.setOpaque(true);
@@ -92,10 +93,16 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		filters.getScroll().setVisible(true);
 		filters.getScroll().setBounds(0, 750, 1600, 285);
 		
+		tooltip = new TooltipPanel();
+		tooltip.setOpaque(true);
+		tooltip.setVisible(true);
+		tooltip.setBounds(1600, 750, 320, 285);
+		
 		this.add(image.getLayeredPane());
 		this.add(toolbar.getScroll());
 		this.add(colourPalette);
 		this.add(filters.getScroll());
+		this.add(tooltip);
 		
 		this.addComponentListener(this);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -138,13 +145,17 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		});
 	}
 	
+	EditorFrame returnSelf() {
+		return this;
+	}
+	
 	public void updateCursor(String newCursor)
 	{
 		image.updateCursor(newCursor);
 	}
 	
-	EditorFrame returnSelf() {
-		return this;
+	public void updateTooltip(int newTooltip) {
+		tooltip.setTooltip(newTooltip);
 	}
 	
 	void updateTitle(boolean isSaved) {
