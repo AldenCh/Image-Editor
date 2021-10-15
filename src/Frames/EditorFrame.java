@@ -171,6 +171,16 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		}
 	}
 	
+	public void updatePixelSize(int newSize) {
+		image.setPixelSize(newSize);
+	}
+	
+	public void updateColour(Color colour) {
+		currentColour = colour;
+		colourPalette.updateColour(colour);
+		image.updateColor(currentColour);
+	 }
+	
 	void createMenuBar() {
 		fileMenu = new JMenu("File");
 		newItem = new JMenuItem("New Image");
@@ -195,16 +205,6 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		fileMenu.add(saveAsItem);
 		menuBar.add(fileMenu);
 	}
-	
-	public void updatePixelSize(int newSize) {
-		image.setPixelSize(newSize);
-	}
-	
-	public void updateColour(Color colour) {
-		currentColour = colour;
-		colourPalette.updateColour(colour);
-		image.updateColor(currentColour);
-	 }
 	 
 	public void setSaved(boolean state) {
 		saved = state;

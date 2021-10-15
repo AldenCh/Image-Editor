@@ -291,10 +291,67 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 			// TODO
 			if (coords.size() != 0) {
 				for (int i = 0; i < coords.size(); i++) {
-					String[] currentCoords = coords.get(i).split("[ ]", 2);
+					String[] currentCoords = coords.get(i).split("[ ]", 5);
 					if (Integer.parseInt(currentCoords[0]) == e.getX() && Integer.parseInt(currentCoords[1]) == e.getY()) {
-						
+						parent.updateColour(new Color(Integer.parseInt(currentCoords[2], Integer.parseInt(currentCoords[3], Integer.parseInt(currentCoords[4])))));
+						return;
 					}
+				}
+				try {
+					// Write the image name and coordinates to 
+					FileWriter writer = new FileWriter(System.getProperty("user.dir")+"\\resources\\changes.txt");
+					String finalLine = "";
+					String temp = "";
+					for (int i = currentImageName.length()-1; i > 0; i--) {
+						if (currentImageName.charAt(i) == '\\' || currentImageName.charAt(i) == '/') {
+							if (parent.getTemp()) {
+								finalLine += "temp/" + temp + "\n";
+							}
+							else {
+								finalLine += "images/" + temp + "\n";
+							}
+							break;
+						}
+						else {
+							temp = currentImageName.charAt(i) + temp;
+						}
+					}
+					finalLine += Integer.toString(e.getX()) + " " + Integer.toString(e.getY());
+					writer.write(finalLine);
+					writer.close();
+					
+					// If the place you are clicking is not part of the current edit then run the eyedropper program to find it
+					Runtime rt = Runtime.getRuntime();
+					rt.exec("cmd.exe /c start wsl ./eyeDropper.out", null, new File(System.getProperty("user.dir")+"\\resources"));
+					
+					while(!canSave) {
+						try {
+							FileReader reader = new FileReader(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+							int data = reader.read();
+							if ((char)data == '1') {
+								reader.close();
+								canSave = true;
+							}
+						} catch (FileNotFoundException e1) {
+							System.out.println("Problem opening update file");
+							e1.printStackTrace();
+						} 
+					}
+					
+					// Get the rgb value of the colour from changes.txt
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\resources\\changes.txt"));
+					String rgbValues = br.readLine();
+					br.close();
+					String[] rgb = rgbValues.split(" ", 3);
+					parent.updateColour(new Color(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2])));
+					
+					FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+					updateWriter.write("0");
+					updateWriter.close();
+					canSave = false;
+				} catch (IOException e1) {
+					System.out.println("Error writing to file");
+					e1.printStackTrace();
 				}
 			}
 			else {
@@ -349,11 +406,11 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 					FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 					updateWriter.write("0");
 					updateWriter.close();
+					canSave = false;
 				} catch (IOException e1) {
 					System.out.println("Error writing to file");
 					e1.printStackTrace();
 				}
-				
 			}
 		}
 	}

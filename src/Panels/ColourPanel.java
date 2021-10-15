@@ -128,7 +128,9 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == colourButton) {
 			Color colour = JColorChooser.showDialog(null, "Pick a colour", colourButton.getBackground());
-			parent.updateColour(colour);
+			if (colour != null) {
+				parent.updateColour(colour);
+			}
 		}
 		
 		else if (e.getSource() == paintBrush) {
