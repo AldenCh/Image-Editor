@@ -22,6 +22,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class EditorFrame extends JFrame implements ActionListener, ComponentListener{
@@ -33,7 +38,6 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 	JMenuItem saveAsItem;
 	JMenuItem saveItem;
 	ImagePanel image;
-	ToolBarPanel toolbar;
 	ColourPanel colourPalette;
 	FilterPanel filters;
 	TooltipPanel tooltip;
@@ -74,17 +78,12 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		image.getLayeredPane().setVisible(true);
 		image.getLayeredPane().setBounds(0, 0, 1600, 750);
 		
-		toolbar = new ToolBarPanel(this);
-		toolbar.setOpaque(true);
-		toolbar.setVisible(true);
-		toolbar.getScroll().setOpaque(true);
-		toolbar.getScroll().setVisible(true);
-		toolbar.getScroll().setBounds(1600, 320, 320, 430);
-		
 		colourPalette = new ColourPanel(this);
 		colourPalette.setOpaque(true);
 		colourPalette.setVisible(true);
-		colourPalette.setBounds(1600, 0, 340, 370);
+		colourPalette.setBounds(1605, 5, 310, 745);
+		colourPalette.setForeground(Color.white);
+		colourPalette.setBorder(new BevelBorder(BevelBorder.RAISED));
 		
 		filters = new FilterPanel(this);
 		filters.setOpaque(true);
@@ -99,7 +98,6 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		tooltip.setBounds(1600, 750, 320, 285);
 		
 		this.add(image.getLayeredPane());
-		this.add(toolbar.getScroll());
 		this.add(colourPalette);
 		this.add(filters.getScroll());
 		this.add(tooltip);

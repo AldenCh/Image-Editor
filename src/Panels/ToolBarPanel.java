@@ -17,27 +17,40 @@ import Frames.EditorFrame;
 public class ToolBarPanel extends JPanel implements ActionListener{
 	JScrollPane scroll;
 	EditorFrame parent;
+	JPanel layoutPanel;
 	
 	public ToolBarPanel(EditorFrame parent) {
+		this.setBackground(new Color(50, 40, 56));
 		this.parent = parent;
-		this.setLayout(new GridLayout(20, 1, 0, 0));
-		this.setBounds(0, 0, 240, 700);
+		this.setLayout(null);
 		
-		for (int i = 0; i < 20; i++) {
-			JButton temp = new JButton("Tool");
-			temp.setBackground(Color.gray.darker());
+		layoutPanel = new JPanel();
+		layoutPanel.setBackground(new Color(50, 40, 56));
+		layoutPanel.setLayout(new GridLayout(9, 5, 3, 3));
+		layoutPanel.setVisible(true);
+		layoutPanel.setOpaque(true);
+		layoutPanel.setBounds(0, 0, 300, 1000);
+		
+		for (int i = 0; i < 45; i++) {
+			JButton temp = new JButton("0");
+			temp.setBackground(new Color(50, 40, 56));
 			temp.setForeground(Color.white);
 			temp.setBorder(new LineBorder(Color.white));
-			temp.setPreferredSize(new Dimension(240,50));
 			temp.setVisible(true);
+			temp.setOpaque(false);
 			temp.setFocusable(false);
-			this.add(temp);
+			layoutPanel.add(temp);
 		}
 		
-		scroll = new JScrollPane(this);
+		scroll = new JScrollPane(layoutPanel);
+		scroll.setBounds(10, 0, 300, 350);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		scroll.setBackground(new Color(50, 40, 56));
+		scroll.setVisible(true);
+		scroll.setOpaque(false);
+		this.add(scroll);
 	}
 	
 	public JScrollPane getScroll() {
