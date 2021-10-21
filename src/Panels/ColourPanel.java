@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -23,7 +26,7 @@ import Frames.EditorFrame;
 
 public class ColourPanel extends JPanel implements ActionListener, ChangeListener{
 	EditorFrame parent;
-	JPanel buttonPanel, recentColoursPanel, shapePanel;
+	JPanel buttonPanel, recentColoursPanel, shapePanel, colourButtonPanel;
 	JColorChooser colourChooser;
 	ImageIcon drag = new ImageIcon("./resources/cursors/drag.jpg");
 	ImageIcon paint = new ImageIcon("./resources/cursors/paintbrush.png");
@@ -81,16 +84,22 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		
 		colourButton = new JButton();
 		colourButton.setBackground(Color.black);
-		colourButton.setBounds(135, 600, 50, 50);
 		colourButton.setVisible(true);
 		colourButton.setOpaque(true);
 		colourButton.setFocusable(false);
-		colourButton.setBorder(new LineBorder(Color.white, 5));
 		colourButton.addActionListener(this);
+		
+		colourButtonPanel = new JPanel();
+		colourButtonPanel.setBounds(125, 590, 65, 75);
+		colourButtonPanel.setBorder(new TitledBorder(new LineBorder(Color.white, 1), "Colour", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", Font.BOLD, 12), Color.white));
+		colourButtonPanel.setLayout(new GridLayout(1, 1, 0, 0));
+		colourButtonPanel.setVisible(true);
+		colourButtonPanel.setOpaque(false);
+		colourButtonPanel.add(colourButton);
 		
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1,5,5,5));
-		buttonPanel.setBounds(70, 30, 180, 50);
+		buttonPanel.setBounds(70, 35, 180, 50);
 		buttonPanel.setBackground(new Color(50, 40, 56));
 		buttonPanel.setBorder(new TitledBorder(new LineBorder(Color.white, 1), "Cursors", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", Font.BOLD, 12), Color.white));
 		
@@ -140,54 +149,96 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		recent1.addActionListener(this);
 		recent1.setVisible(true);
 		recent1.setOpaque(true);
-		recent1.setBackground(Color.black);
+		recent1.setBackground(Color.blue);
 		recentColoursPanel.add(recent1);
 		
 		recent2.addActionListener(this);
 		recent2.setVisible(true);
 		recent2.setOpaque(true);
-		recent2.setBackground(Color.black);
+		recent2.setBackground(Color.red);
 		recentColoursPanel.add(recent2);
 		
 		recent3.addActionListener(this);
 		recent3.setVisible(true);
 		recent3.setOpaque(true);
-		recent3.setBackground(Color.black);
+		recent3.setBackground(Color.yellow);
 		recentColoursPanel.add(recent3);
 		
 		recent4.addActionListener(this);
 		recent4.setVisible(true);
 		recent4.setOpaque(true);
-		recent4.setBackground(Color.black);
+		recent4.setBackground(Color.green);
 		recentColoursPanel.add(recent4);
 		
 		recent5.addActionListener(this);
 		recent5.setVisible(true);
 		recent5.setOpaque(true);
-		recent5.setBackground(Color.black);
+		recent5.setBackground(Color.orange);
 		recentColoursPanel.add(recent5);
 		
-		recentColoursPanel.setBounds(10, 660, 290, 70);
+		recentColoursPanel.setBounds(10, 665, 290, 70);
 		recentColoursPanel.setVisible(true);
 		recentColoursPanel.setOpaque(false);
 		
 		this.add(buttonPanel);
 		this.add(shapePanel);
-		this.add(colourButton);
+		this.add(colourButtonPanel);
 		this.add(sliderLabel);
 		this.add(pixelSlider);
 		this.add(recentColoursPanel);
 	}
 	
-	public void updateColour(Color newColor) {
-		if (newColor == Color.white) {
-			colourButton.setBackground(newColor);
-			colourButton.setBorder(new LineBorder(Color.black, 1));
+	public void updateColour(Color newColour) {
+		if (newColour == colourButton.getBackground()) {
+			return;
 		}
+		else if (newColour == recent1.getBackground()) {
+			Color tempColour = recent1.getBackground();
+			recent1.setBackground(colourButton.getBackground());
+			colourButton.setBackground(tempColour);
+		}
+		else if (newColour == recent2.getBackground()) {
+			Color tempColour = recent2.getBackground();
+			recent2.setBackground(recent1.getBackground());
+			recent1.setBackground(colourButton.getBackground());
+			colourButton.setBackground(tempColour);
+		}
+		else if (newColour == recent3.getBackground()) {
+			Color tempColour = recent3.getBackground();
+			recent3.setBackground(recent2.getBackground());
+			recent2.setBackground(recent1.getBackground());
+			recent1.setBackground(colourButton.getBackground());
+			colourButton.setBackground(tempColour);
+		}
+		else if (newColour == recent4.getBackground()) {
+			Color tempColour = recent4.getBackground();
+			recent4.setBackground(recent3.getBackground());
+			recent3.setBackground(recent2.getBackground());
+			recent2.setBackground(recent1.getBackground());
+			recent1.setBackground(colourButton.getBackground());
+			colourButton.setBackground(tempColour);
+		}
+		else if (newColour == recent5.getBackground()) {
+			Color tempColour = recent5.getBackground();
+			recent5.setBackground(recent4.getBackground());
+			recent4.setBackground(recent3.getBackground());
+			recent3.setBackground(recent2.getBackground());
+			recent2.setBackground(recent1.getBackground());
+			recent1.setBackground(colourButton.getBackground());
+			colourButton.setBackground(tempColour);
+		}
+		// If it's a completely new colour
 		else {
-			colourButton.setBackground(newColor);
-			if (colourButton.getBorder() == new LineBorder(Color.black, 1)) {
-				colourButton.setBorder(new LineBorder(Color.white, 1));
+			recent5.setBackground(recent4.getBackground());
+			recent4.setBackground(recent3.getBackground());
+			recent3.setBackground(recent2.getBackground());
+			recent2.setBackground(recent1.getBackground());
+			recent1.setBackground(colourButton.getBackground());
+			if (newColour.getRed() >= 230 && newColour.getGreen() >= 230 && newColour.getBlue() >= 230) {
+				colourButton.setBackground(newColour);
+			}
+			else {
+				colourButton.setBackground(newColour);
 			}
 		}
 	}
@@ -195,8 +246,22 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Recent Colour Button Functionality
-		
-		if (e.getSource() == colourButton) {
+		if (e.getSource() == recent1) {
+			updateColour(recent1.getBackground());
+		}
+		else if (e.getSource() == recent2) {
+			updateColour(recent2.getBackground());
+		}
+		else if (e.getSource() == recent3) {
+			updateColour(recent3.getBackground());
+		}
+		else if (e.getSource() == recent4) {
+			updateColour(recent4.getBackground());
+		}
+		else if (e.getSource() == recent5) {
+			updateColour(recent5.getBackground());
+		}
+		else if (e.getSource() == colourButton) {
 			Color colour = JColorChooser.showDialog(null, "Pick a colour", colourButton.getBackground());
 			if (colour != null) {
 				parent.updateColour(colour);
