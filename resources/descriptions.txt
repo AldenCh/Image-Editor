@@ -1,5 +1,4 @@
 Paint Brush-Hold down left click on the canvas to draw pixels
 Drag-Hold left click and move your cursor around the canvas to move around
-Box Select-Click two points to denote the top left and bottom right corners of the rectangle to be selected
 Eraser-Hold down left click on the canvas to erase any drawn or copied pixels
 Eye Dropper-Click any spot on the canvas to get the color at that position

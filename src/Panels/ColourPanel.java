@@ -30,10 +30,11 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 	JColorChooser colourChooser;
 	ImageIcon drag = new ImageIcon("./resources/cursors/drag.jpg");
 	ImageIcon paint = new ImageIcon("./resources/cursors/paintbrush.png");
-	ImageIcon select = new ImageIcon("./resources/cursors/select.jpg");
 	ImageIcon erase = new ImageIcon("./resources/cursors/eraser.png");
 	ImageIcon dropper = new ImageIcon("./resources/cursors/eyedropper.png");
-	JButton colourButton, paintBrush, dragCursor, selectTool, eraser, eyeDropper;
+	ImageIcon plus = new ImageIcon("./resources/cursors/plus.png");
+	ImageIcon minus = new ImageIcon("./resources/cursors/minus.png");
+	JButton colourButton, paintBrush, dragCursor, eraser, eyeDropper, zoomOut, zoomIn;
 	JLabel sliderLabel;
 	JSlider pixelSlider;
 	ArrayList<JButton> recentColours = new ArrayList<JButton>();
@@ -61,12 +62,6 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		dragCursor.setFocusable(false);
 		dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 		dragCursor.addActionListener(this);
-
-		selectTool = new JButton(select);
-		selectTool.setVisible(true);
-		selectTool.setFocusable(false);
-		selectTool.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-		selectTool.addActionListener(this);
 		
 		eraser = new JButton(erase);
 		eraser.setVisible(true);
@@ -81,6 +76,20 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		eyeDropper.setFocusable(false);
 		eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 		eyeDropper.addActionListener(this);
+		
+		zoomIn = new JButton(plus);
+		zoomIn.setVisible(true);
+		zoomIn.setOpaque(true);
+		zoomIn.setFocusable(false);
+		zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+		zoomIn.addActionListener(this);
+		
+		zoomOut = new JButton(minus);
+		zoomOut.setVisible(true);
+		zoomOut.setOpaque(true);
+		zoomOut.setFocusable(false);
+		zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+		zoomOut.addActionListener(this);
 		
 		colourButton = new JButton();
 		colourButton.setBackground(Color.black);
@@ -98,16 +107,17 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 		colourButtonPanel.add(colourButton);
 		
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1,5,5,5));
-		buttonPanel.setBounds(70, 35, 180, 50);
+		buttonPanel.setLayout(new GridLayout(1,6,5,5));
+		buttonPanel.setBounds(60, 25, 200, 50);
 		buttonPanel.setBackground(new Color(50, 40, 56));
 		buttonPanel.setBorder(new TitledBorder(new LineBorder(Color.white, 1), "Cursors", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", Font.BOLD, 12), Color.white));
 		
 		buttonPanel.add(paintBrush);
 		buttonPanel.add(dragCursor);
-		buttonPanel.add(selectTool);
 		buttonPanel.add(eraser);
 		buttonPanel.add(eyeDropper);
+		buttonPanel.add(zoomIn);
+		buttonPanel.add(zoomOut);
 		
 		shapePanel = new JPanel();
 		shapePanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED), "Shapes", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", Font.BOLD, 12), Color.white));
@@ -273,9 +283,10 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			parent.updateCursor("paint");
 			paintBrush.setBorder(new LineBorder(Color.orange, 2));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			selectTool.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 		}
 		
 		else if (e.getSource() == dragCursor) {
@@ -283,39 +294,52 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			parent.updateCursor("drag");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(Color.orange, 2));
-			selectTool.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-		}
-		
-		else if (e.getSource() == selectTool) {
-			parent.updateTooltip(2);
-			parent.updateCursor("select");
-			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			selectTool.setBorder(new LineBorder(Color.orange, 2));
-			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 		}
 		
 		else if (e.getSource() == eraser) {
-			parent.updateTooltip(3);
+			parent.updateTooltip(2);
 			parent.updateCursor("eraser");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			selectTool.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eraser.setBorder(new LineBorder(Color.orange, 2));
 			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 		}
 		
 		else if (e.getSource() == eyeDropper) {
-			parent.updateTooltip(4);
+			parent.updateTooltip(3);
 			parent.updateCursor("eyedropper");
 			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
-			selectTool.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
 			eyeDropper.setBorder(new LineBorder(Color.orange, 2));
+			zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+		}
+		
+		else if (e.getSource() == zoomIn) {
+			parent.updateCursor("select");
+			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomIn.setBorder(new LineBorder(Color.orange, 2));
+			zoomOut.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+		}
+		
+		else if (e.getSource() == zoomOut) {
+			parent.updateCursor("select");
+			paintBrush.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			dragCursor.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			eraser.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			eyeDropper.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomIn.setBorder(new LineBorder(new Color(50, 40, 56), 1));
+			zoomOut.setBorder(new LineBorder(Color.orange, 2));
 		}
 		
 	}
