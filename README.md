@@ -1,1 +1,2 @@
 This is a really rough Image Editor that is supposed to be like Microsoft Paint but is still under major development.
+This program can only handle .jpg files and it requires WSL to be enabled in order to run
