@@ -206,12 +206,14 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			Color tempColour = recent1.getBackground();
 			recent1.setBackground(colourButton.getBackground());
 			colourButton.setBackground(tempColour);
+			parent.updateColour(tempColour);
 		}
 		else if (newColour == recent2.getBackground()) {
 			Color tempColour = recent2.getBackground();
 			recent2.setBackground(recent1.getBackground());
 			recent1.setBackground(colourButton.getBackground());
 			colourButton.setBackground(tempColour);
+			parent.updateColour(tempColour);
 		}
 		else if (newColour == recent3.getBackground()) {
 			Color tempColour = recent3.getBackground();
@@ -219,6 +221,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			recent2.setBackground(recent1.getBackground());
 			recent1.setBackground(colourButton.getBackground());
 			colourButton.setBackground(tempColour);
+			parent.updateColour(tempColour);
 		}
 		else if (newColour == recent4.getBackground()) {
 			Color tempColour = recent4.getBackground();
@@ -227,6 +230,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			recent2.setBackground(recent1.getBackground());
 			recent1.setBackground(colourButton.getBackground());
 			colourButton.setBackground(tempColour);
+			parent.updateColour(tempColour);
 		}
 		else if (newColour == recent5.getBackground()) {
 			Color tempColour = recent5.getBackground();
@@ -236,6 +240,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			recent2.setBackground(recent1.getBackground());
 			recent1.setBackground(colourButton.getBackground());
 			colourButton.setBackground(tempColour);
+			parent.updateColour(tempColour);
 		}
 		// If it's a completely new colour
 		else {
@@ -250,6 +255,7 @@ public class ColourPanel extends JPanel implements ActionListener, ChangeListene
 			else {
 				colourButton.setBackground(newColour);
 			}
+			parent.updateColour(newColour);
 		}
 	}
 

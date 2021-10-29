@@ -115,7 +115,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 					e.printStackTrace();
 				}
 			}
-			update(false, currentImageName);
+			update(false, currentImageName, false);
 			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 			updateWriter.write("0");
 			updateWriter.close();
@@ -182,6 +182,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 				
 				// Update currentImageName
 				currentImageName = newName;
+				System.out.println(newName);
 				
 				// Update ImageLabel
 				while(!canSave) {
@@ -200,7 +201,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 						e.printStackTrace();
 					}
 				}
-				update(justSave, currentImageName);
+				update(justSave, currentImageName, false);
 				FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 				updateWriter.write("0");
 				updateWriter.close();
@@ -212,7 +213,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 		}
 	}
 	
-	public void update(boolean justSave, String name) {
+	public void update(boolean justSave, String name, boolean isFilter) {
 		ImageIcon temp = null;
 		if (justSave) {
 			for (int i = name.length()-1; i > 0; i--) {
@@ -328,7 +329,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 			if (!isFiltered) {
 				isFiltered = true;
 			}
-			update(false, tempName);
+			update(false, tempName, true);
 			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 			updateWriter.write("0");
 			updateWriter.close();
