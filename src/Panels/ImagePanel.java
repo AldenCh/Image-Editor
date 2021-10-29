@@ -40,6 +40,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	int lastXCoord = -20;
 	int lastYCoord = -20;
 	int pixelSize = 3;
+	boolean isFiltered = false;
 	
 	public ImagePanel(EditorFrame parent, String imageName) {
 		this.parent = parent;
@@ -114,7 +115,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 					e.printStackTrace();
 				}
 			}
-			update(false);
+			update(false, currentImageName);
 			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 			updateWriter.write("0");
 			updateWriter.close();
@@ -125,7 +126,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	}
 	
 	public void saveAsImage(String newName, boolean justSave, boolean isTemp) {
-		if (coords.size() == 0) {
+		if (coords.size() == 0 && !isFiltered) {
 			return;
 		}
 		else {
@@ -137,8 +138,9 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 				String temp = "";
 				for (int i = currentImageName.length()-1; i > 0; i--) {
 					if (currentImageName.charAt(i) == '\\' || currentImageName.charAt(i) == '/') {
-						if (isTemp) {
+						if (isTemp || isFiltered) {
 							finalLine += "temp/" + temp + "\n";
+							isFiltered = false;
 						}
 						else {
 							finalLine += "images/" + temp + "\n";
@@ -198,7 +200,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 						e.printStackTrace();
 					}
 				}
-				update(justSave);
+				update(justSave, currentImageName);
 				FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
 				updateWriter.write("0");
 				updateWriter.close();
@@ -210,20 +212,20 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 		}
 	}
 	
-	public void update(boolean justSave) {
+	public void update(boolean justSave, String name) {
 		ImageIcon temp = null;
 		if (justSave) {
-			for (int i = currentImageName.length()-1; i > 0; i--) {
-				if (currentImageName.charAt(i) == '\\' || currentImageName.charAt(i) == '/'){
-					temp = new ImageIcon(currentImageName.substring(0, i-6)+"\\temp\\"+currentImageName.substring(i));
+			for (int i = name.length()-1; i > 0; i--) {
+				if (name.charAt(i) == '\\' || name.charAt(i) == '/'){
+					temp = new ImageIcon(name.substring(0, i-6)+"\\temp\\"+name.substring(i));
 					break;
 				}
 			}
 		}
 		else {
-			temp = new ImageIcon(currentImageName);
+			temp = new ImageIcon(name);
 		}
-		image = new ImageIcon(currentImageName);
+		image = new ImageIcon(name);
 		imageLabel.setVisible(false);
 		this.remove(imageLabel);
 		imageLabel = new JLabel(temp);
@@ -282,7 +284,7 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 					temp = currentImageName.charAt(i) + temp;
 				}
 			}
-			if (isTemp) {
+			if (isTemp || isFiltered) {
 				finalLine += "1";
 			}
 			else {
@@ -291,37 +293,46 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 			writer.write(finalLine);
 			writer.close();
 			
-//			// Run the C++ Program
-//			Runtime rt = Runtime.getRuntime();
-//			rt.exec("cmd.exe /c start wsl ./flipHorizontal.out", null, new File(System.getProperty("user.dir")+"\\resources"));
-//			coords.clear();
-//			this.repaint();
-//			
-//			// Update currentImageName
-//			currentImageName = System.getProperty("user.dir")+"\\resources\\temp\\"+temp;
-//			
-//			// Update ImageLabel
-//			while(!canSave) {
-//				try {
-//					FileReader reader = new FileReader(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
-//					int data = reader.read();
-//					if ((char)data == '1') {
-//						reader.close();
-//						canSave = true;
-//					}
-//				} catch (FileNotFoundException e) {
-//					System.out.println("Problem opening update file");
-//					e.printStackTrace();
-//				} catch (IOException e) {
-//					System.out.println("Problem reading update file");
-//					e.printStackTrace();
-//				}
-//			}
-//			update(false);
-//			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
-//			updateWriter.write("0");
-//			updateWriter.close();
-//			canSave = false;
+			// Run the C++ Program
+			Runtime rt = Runtime.getRuntime();
+			rt.exec("cmd.exe /c start wsl ./flipHorizontal.out", null, new File(System.getProperty("user.dir")+"\\resources"));
+			coords.clear();
+			this.repaint();
+			
+			// Update currentImageName
+			currentImageName = System.getProperty("user.dir")+"\\temp\\" + temp;
+			
+			// Update ImageLabel
+			while(!canSave) {
+				try {
+					FileReader reader = new FileReader(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+					int data = reader.read();
+					if ((char)data == '1') {
+						reader.close();
+						canSave = true;
+					}
+				} catch (FileNotFoundException e) {
+					System.out.println("Problem opening update file");
+					e.printStackTrace();
+				} catch (IOException e) {
+					System.out.println("Problem reading update file");
+					e.printStackTrace();
+				}
+			}
+			
+			// TODO
+			BufferedReader nameReader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\resources\\changes.txt"));
+			String tempName = System.getProperty("user.dir")+"\\resources\\" + nameReader.readLine();
+			nameReader.close();
+			
+			if (!isFiltered) {
+				isFiltered = true;
+			}
+			update(false, tempName);
+			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+			updateWriter.write("0");
+			updateWriter.close();
+			canSave = false;
 		} catch (IOException e) {
 			System.out.println("Error writing to change file or updating update file");
 		}

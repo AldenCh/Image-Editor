@@ -181,6 +181,7 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 	
 	public void flipHorizontal() {
 		image.flipHorizontal(isTemp);
+		updateTitle(saved);
 	}
 	
 	public void flipVertical() {
@@ -280,8 +281,6 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 			}
 		}
 	}
-	
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

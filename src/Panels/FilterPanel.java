@@ -68,9 +68,11 @@ public class FilterPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO
 		if (e.getSource() == flipHorizontal) {
+			parent.setSaved(false);
 			parent.flipHorizontal();
 		}
 		else if (e.getSource() == flipVertical) {
+			parent.setSaved(false);
 			parent.flipVertical();
 		}
 	}

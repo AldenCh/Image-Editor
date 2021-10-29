@@ -143,6 +143,7 @@ int main(){
     string newName;
     for (int i = 0; i < imageName.length(); i++){
         if (imageName[i] == '/' || imageName[i] == '\\'){
+            // TODO
             if (isTemp){
                 newName = "temp/temp"+imageName.substr(i+1,imageName.length()-i);
             }
