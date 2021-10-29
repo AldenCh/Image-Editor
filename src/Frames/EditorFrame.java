@@ -179,6 +179,14 @@ public class EditorFrame extends JFrame implements ActionListener, ComponentList
 		image.updateColor(currentColour);
 	 }
 	
+	public void flipHorizontal() {
+		image.flipHorizontal(isTemp);
+	}
+	
+	public void flipVertical() {
+		image.flipVertical(isTemp);
+	}
+	
 	void createMenuBar() {
 		fileMenu = new JMenu("File");
 		newItem = new JMenuItem("New Image");

@@ -130,14 +130,14 @@ int main(){
     flippedImg->width = img->width;
     flippedImg->height = img->height;
 
-    for (int i = 0; i < img->height; i++){
-        int counter = 0;
-        for (int j = img->width-1; j >= 0; j--){
-            set_pixel_red(flippedImg, i, counter, get_pixel_red(img, i, j));
-            set_pixel_green(flippedImg, i, counter, get_pixel_green(img, i, j));
-            set_pixel_blue(flippedImg, i, counter, get_pixel_blue(img, i, j));
-            counter++;
+    int counter = 0;
+    for (int i = img->height-1; i >= 0; i--){
+        for (int j = 0; j < img->width; j++){
+            set_pixel_red(flippedImg, counter, j, get_pixel_red(img, i, j));
+            set_pixel_green(flippedImg, counter, j, get_pixel_green(img, i, j));
+            set_pixel_blue(flippedImg, counter, j, get_pixel_blue(img, i, j));
         }
+        counter++;
     }
 
     string newName;

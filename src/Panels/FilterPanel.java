@@ -17,13 +17,33 @@ import Frames.EditorFrame;
 public class FilterPanel extends JPanel implements ActionListener{
 	JScrollPane scroll;
 	EditorFrame parent;
+	JButton flipHorizontal = new JButton("Reflect Horizontally");
+	JButton flipVertical = new JButton("Reflect Vertically");
 	
 	public FilterPanel(EditorFrame parent){
 		this.parent = parent;
 		this.setBackground(Color.GREEN);
-		this.setLayout(new GridLayout(1, 10, 0, 0));
+		this.setLayout(new GridLayout(1, 6, 0, 0));
 		
-		for (int i = 0; i < 20; i++) {
+		flipHorizontal = new JButton("Reflect Horizontally");
+		flipHorizontal.setBackground(Color.black);
+		flipHorizontal.setForeground(Color.white);
+		flipHorizontal.setBorder(new LineBorder(Color.white));
+		flipHorizontal.setVisible(true);
+		flipHorizontal.setFocusable(false);
+		flipHorizontal.addActionListener(this);
+		this.add(flipHorizontal);
+		
+		flipVertical = new JButton("Reflect Vertically");
+		flipVertical.setBackground(Color.black);
+		flipVertical.setForeground(Color.white);
+		flipVertical.setBorder(new LineBorder(Color.white));
+		flipVertical.setVisible(true);
+		flipVertical.setFocusable(false);
+		flipVertical.addActionListener(this);
+		this.add(flipVertical);
+		
+		for (int i = 0; i < 4; i++) {
 			JButton temp = new JButton("Filter");
 			temp.setBackground(Color.gray.darker());
 			temp.setForeground(Color.white);
@@ -47,6 +67,12 @@ public class FilterPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO
+		if (e.getSource() == flipHorizontal) {
+			parent.flipHorizontal();
+		}
+		else if (e.getSource() == flipVertical) {
+			parent.flipVertical();
+		}
 	}
 
 }

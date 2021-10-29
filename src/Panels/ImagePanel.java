@@ -255,6 +255,78 @@ public class ImagePanel extends JPanel implements MouseMotionListener, MouseList
 	public void setPixelSize(int newPixelSize) {
 		pixelSize = newPixelSize;
 	}
+	
+	public void flipVertical(boolean isTemp) {
+		// TODO
+		
+	}
+	
+	public void flipHorizontal(boolean isTemp) {
+		// TODO
+		try {
+			// Write to file
+			FileWriter writer = new FileWriter(System.getProperty("user.dir")+"\\resources\\changes.txt");
+			String finalLine = "";
+			String temp = "";
+			for (int i = currentImageName.length()-1; i > 0; i--) {
+				if (currentImageName.charAt(i) == '\\' || currentImageName.charAt(i) == '/') {
+					if (isTemp) {
+						finalLine += "temp/" + temp + "\n";
+					}
+					else {
+						finalLine += "images/" + temp + "\n";
+					}
+					break;
+				}
+				else {
+					temp = currentImageName.charAt(i) + temp;
+				}
+			}
+			if (isTemp) {
+				finalLine += "1";
+			}
+			else {
+				finalLine += "0";
+			}
+			writer.write(finalLine);
+			writer.close();
+			
+//			// Run the C++ Program
+//			Runtime rt = Runtime.getRuntime();
+//			rt.exec("cmd.exe /c start wsl ./flipHorizontal.out", null, new File(System.getProperty("user.dir")+"\\resources"));
+//			coords.clear();
+//			this.repaint();
+//			
+//			// Update currentImageName
+//			currentImageName = System.getProperty("user.dir")+"\\resources\\temp\\"+temp;
+//			
+//			// Update ImageLabel
+//			while(!canSave) {
+//				try {
+//					FileReader reader = new FileReader(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+//					int data = reader.read();
+//					if ((char)data == '1') {
+//						reader.close();
+//						canSave = true;
+//					}
+//				} catch (FileNotFoundException e) {
+//					System.out.println("Problem opening update file");
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					System.out.println("Problem reading update file");
+//					e.printStackTrace();
+//				}
+//			}
+//			update(false);
+//			FileWriter updateWriter = new FileWriter(System.getProperty("user.dir")+"\\resources\\checkUpdate.txt");
+//			updateWriter.write("0");
+//			updateWriter.close();
+//			canSave = false;
+		} catch (IOException e) {
+			System.out.println("Error writing to change file or updating update file");
+		}
+		
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {

@@ -185,7 +185,6 @@ int main(){
 
     save_to_jpeg_file(newImageName, img);
     for (int i = 0; i < newImageName.length(); i++){
-        cout << newImageName[i] << endl;
         if (newImageName[i] == '/' || newImageName[i] == '\\'){
             save_to_jpeg_file("temp/"+newImageName.substr(i+1,newImageName.length()-i), img);
             break;
